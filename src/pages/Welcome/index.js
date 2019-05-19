@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StatusBar, AsyncStorage, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  AsyncStorage,
+  ActivityIndicator,
+} from 'react-native';
 
+import PropTypes from 'prop-types';
 import api from '~/services/api';
 import styles from './styles';
 
@@ -8,18 +17,18 @@ class Welcome extends Component {
   state = {
     username: '',
     loading: false,
-    error: false
-  }
+    error: false,
+  };
 
   checkUserExists = async (username) => {
     const user = await api.get(`/users/${username}`);
 
     return user;
-  }
+  };
 
-  saveUser = async username => {
+  saveUser = async (username) => {
     await AsyncStorage.setItem('@GitHuber:username', username);
-  }
+  };
 
   singIn = async () => {
     const { username } = this.state;
@@ -36,9 +45,9 @@ class Welcome extends Component {
       this.setState({ loading: false, error: true });
       console.tron.log('Usuário inexistente');
     }
-  }
+  };
 
-  render () {
+  render() {
     const { username, loading, error } = this.state;
 
     return (
@@ -49,7 +58,7 @@ class Welcome extends Component {
           Para continuar precisamos que você informe seu usuário no GitHub.
         </Text>
 
-        { error && <Text style={styles.error}>Usuário inexistente</Text>}
+        {error && <Text style={styles.error}>Usuário inexistente</Text>}
 
         <View style={styles.form}>
           <TextInput
@@ -61,11 +70,8 @@ class Welcome extends Component {
             value={username}
             onChangeText={text => this.setState({ username: text })}
           />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.singIn}
-          >
-            { loading ? (
+          <TouchableOpacity style={styles.button} onPress={this.singIn}>
+            {loading ? (
               <ActivityIndicator size="small" color="#FFF" />
             ) : (
               <Text style={styles.buttonText}>Prossegir</Text>
@@ -73,8 +79,14 @@ class Welcome extends Component {
           </TouchableOpacity>
         </View>
       </View>
-    )
+    );
   }
 }
+
+Welcome.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};
 
 export default Welcome;
