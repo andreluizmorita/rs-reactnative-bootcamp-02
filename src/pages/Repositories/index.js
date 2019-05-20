@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {
-  View, Text, AsyncStorage, ActivityIndicator, FlatList,
+  View, AsyncStorage, ActivityIndicator, FlatList,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Header from '~/components/Header';
-import RepositoryItem from './RespositoryItem';
+import RepositoryItem from './RepositoryItem';
 import api from '~/services/api';
 import styles from './styles';
 
